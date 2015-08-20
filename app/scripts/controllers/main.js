@@ -13,7 +13,7 @@ angular.module('challengeOneApp')
       method: 'GET',
       url: 'https://restcountries-v1.p.mashape.com/all',
       headers: {
-        'X-Mashape-Key': "FoP7J2FVnBmshSgwzlHmhiy2hk6lp1NqIHKjsnIihMurvjkm43",
+        'X-Mashape-Key': '',
         'Accept': "application/json"
       }
     }
