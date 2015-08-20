@@ -30,6 +30,10 @@ body {
   padding-bottom: 19px;
 }
 
+.pageTitle {
+  text-align: center;
+}
+
 /* Custom page footer */
 .footer {
   padding-top: 19px;

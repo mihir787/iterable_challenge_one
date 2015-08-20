@@ -130,7 +130,8 @@ angular.module('challengeOneApp')
                     depth: 35,
                     dataLabels: {
                         enabled: true,
-                        format: '{point.name}'
+                        format: '{point.name}',
+
                     }
                 }
             },
