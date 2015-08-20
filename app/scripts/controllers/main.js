@@ -33,21 +33,110 @@ angular.module('challengeOneApp')
         }
       })
       $scope.topLanguages = topLangs();
+      topLanguagesGraph($scope.topLanguages)
     })
-    var topLangs = function() {
-      var frequency = {};
 
-      $scope.allLanguages.forEach(function(language) { frequency[language] = 0; });
 
-      var uniques = $scope.allLanguages.filter(function(value) {
-        return ++frequency[value] == 1;
-      });
+    var topLangs = function () {
+      var frequency = {}, value;
 
-      return uniques
+      for(var i = 0; i < $scope.allLanguages.length; i++) {
+          value = $scope.allLanguages[i];
+          if(value in frequency) {
+              frequency[value]++;
+          }
+          else {
+              frequency[value] = 1;
+          }
+      }
 
-      // return uniques.sort(function(a, b) {
-      //   return frequency[b] - frequency[a];
-      // });
+      var uniques = [];
+      for(value in frequency) {
+          uniques.push(value);
+      }
+
+      function compareFrequency(a, b) {
+          return frequency[b] - frequency[a];
+      }
+
+      $scope.langFrequency = frequency;
+      return uniques.sort(compareFrequency).slice(0, 10);
     }
+
+    var topLanguagesGraph = function (topLanguages) {
+      $('#container').highcharts({
+          chart: {
+              type: 'column'
+          },
+          title: {
+              text: 'Top Ten World Wide National Languages'
+          },
+          subtitle: {
+              text: 'Note: Most countries have multiple national languages.'
+          },
+          xAxis: {
+              type: 'Language',
+              categories: topLanguages
+          },
+          yAxis: {
+              title: {
+                  text: 'Countries per Language'
+              }
+
+          },
+          legend: {
+              enabled: false
+          },
+          plotOptions: {
+              series: {
+                  borderWidth: 0,
+                  dataLabels: {
+                      enabled: false
+                  }
+              }
+          },
+
+          tooltip: {
+              headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+              pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> countries<br/>'
+          },
+
+          series: [{
+              name: "Language",
+              colorByPoint: true,
+              data: [{
+                  name: topLanguages[0],
+                  y: $scope.langFrequency[topLanguages[0]],
+              }, {
+                  name: topLanguages[1],
+                  y: $scope.langFrequency[topLanguages[1]],
+              }, {
+                  name: topLanguages[2],
+                  y: $scope.langFrequency[topLanguages[2]],
+              }, {
+                  name: topLanguages[3],
+                  y: $scope.langFrequency[topLanguages[3]],
+              }, {
+                  name: topLanguages[4],
+                  y: $scope.langFrequency[topLanguages[4]],
+              }, {
+                  name: topLanguages[5],
+                  y: $scope.langFrequency[topLanguages[5]],
+              }, {
+                  name: topLanguages[6],
+                  y:$scope.langFrequency[topLanguages[6]],
+              }, {
+                  name: topLanguages[7],
+                  y: $scope.langFrequency[topLanguages[7]],
+              }, {
+                  name: topLanguages[8],
+                  y: $scope.langFrequency[topLanguages[8]],
+              }, {
+                  name: topLanguages[9],
+                  y: $scope.langFrequency[topLanguages[9]],
+              }]
+          }]
+        });
+      };
 
   });
