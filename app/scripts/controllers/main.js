@@ -34,8 +34,8 @@ angular.module('challengeOneApp')
       })
       $scope.topLanguages = topLangs();
       topLanguagesGraph($scope.topLanguages)
+      sortedPopulation();
     })
-
 
     var topLangs = function () {
       var frequency = {}, value;
@@ -63,7 +63,16 @@ angular.module('challengeOneApp')
       return uniques.sort(compareFrequency).slice(0, 10);
     }
 
+    var sortedPopulation = function() {
+      function compareFrequency(a, b) {
+          return $scope.countries[b].population - $scope.countries[a].population;
+      }
+
+      return $scope.countries.sort(compareFrequency)
+    }
+
     var topLanguagesGraph = function (topLanguages) {
+      $(function() {
       $('#container').highcharts({
           chart: {
               type: 'column'
@@ -137,6 +146,6 @@ angular.module('challengeOneApp')
               }]
           }]
         });
-      };
-
+      });
+    };
   });
