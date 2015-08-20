@@ -22,6 +22,13 @@ angular.module('challengeOneApp')
       $scope.countries = response.data
 
     }).then(function() {
+      grabCoutries();
+      populationGeneration();
+      $scope.topLanguages = topLangs();
+      generateGraphs();
+    })
+
+    var grabCoutries = function() {
       $scope.regionNames = []
       $scope.subRegionNames = []
       $scope.allLanguages = []
@@ -32,10 +39,46 @@ angular.module('challengeOneApp')
           $scope.allLanguages.push(country.languages[i])
         }
       })
-      $scope.topLanguages = topLangs();
-      topLanguagesGraph($scope.topLanguages)
-      sortedPopulation();
-    })
+    }
+
+    var populationGeneration = function() {
+      $scope.sortedPopulation = sortedPopulation();
+      $scope.totalPopulation = totalPopulation();
+      $scope.notTopSixPopulation = $scope.totalPopulation - notTopSixPopulation();
+    }
+
+    var generateGraphs = function(){
+      populationPieGraph();
+      topLanguagesGraph($scope.topLanguages);
+    }
+
+    var sortedPopulation = function() {
+      function comparePopulation(a, b) {
+        var count = $scope.countries
+          return b.population - a.population;
+      }
+
+      return $scope.countries.sort(comparePopulation).slice(0, 6);
+    }
+
+    var totalPopulation = function(){
+      var total = 0;
+      for(var i = 0; i < $scope.sortedPopulation.length; i++){
+          var country = $scope.sortedPopulation[i];
+          total += (country.population);
+      }
+      return total;
+    }
+
+    var notTopSixPopulation = function(){
+      var total = 0;
+      for(var i = 0; i < 6; i++){
+          var country = $scope.sortedPopulation[i];
+          total += (country.population);
+      }
+      return $scope.totalPopulation - total;
+    }
+>>>>>>> population
 
     var topLangs = function () {
       var frequency = {}, value;
@@ -63,6 +106,7 @@ angular.module('challengeOneApp')
       return uniques.sort(compareFrequency).slice(0, 10);
     }
 
+<<<<<<< HEAD
     var sortedPopulation = function() {
       function compareFrequency(a, b) {
           return $scope.countries[b].population - $scope.countries[a].population;
@@ -73,6 +117,55 @@ angular.module('challengeOneApp')
 
     var topLanguagesGraph = function (topLanguages) {
       $(function() {
+=======
+    var populationPieGraph = function() {
+      $(function () {
+        $('#container1').highcharts({
+            chart: {
+                type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45,
+                    beta: 0
+                }
+            },
+            title: {
+                text: 'Top 6 Most Populated Countries Compared to the Rest of the World'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    depth: 35,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Population share',
+                data: [
+                    [$scope.sortedPopulation[0].name,   $scope.sortedPopulation[0].population / $scope.totalPopulation],
+                    [$scope.sortedPopulation[1].name,       $scope.sortedPopulation[1].population / $scope.totalPopulation],
+                    [$scope.sortedPopulation[2].name,    $scope.sortedPopulation[2].population / $scope.totalPopulation],
+                    [$scope.sortedPopulation[3].name,     $scope.sortedPopulation[3].population / $scope.totalPopulation],
+                    [$scope.sortedPopulation[4].name,   $scope.sortedPopulation[4].population / $scope.totalPopulation],
+                    [$scope.sortedPopulation[5].name,   $scope.sortedPopulation[5].population / $scope.totalPopulation],
+                    ["Rest of the World",   $scope.notTopSixPopulation / $scope.totalPopulation]
+                ]
+            }]
+        });
+      });
+    }
+
+    var topLanguagesGraph = function (topLanguages) {
+      $(function () {
+>>>>>>> population
       $('#container').highcharts({
           chart: {
               type: 'column'
@@ -147,5 +240,10 @@ angular.module('challengeOneApp')
           }]
         });
       });
+<<<<<<< HEAD
     };
+=======
+      };
+
+>>>>>>> population
   });
