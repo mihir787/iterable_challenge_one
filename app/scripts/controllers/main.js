@@ -64,6 +64,7 @@ angular.module('challengeOneApp')
     }
 
     var topLanguagesGraph = function (topLanguages) {
+      $(function () {
       $('#container').highcharts({
           chart: {
               type: 'column'
@@ -137,6 +138,7 @@ angular.module('challengeOneApp')
               }]
           }]
         });
+      });
       };
 
   });
